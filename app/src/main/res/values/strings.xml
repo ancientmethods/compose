@@ -1,0 +1,21 @@
+<resources>
+    <string name="app_name">onstella</string>
+    <string name="coach">Coach</string>
+    <string name="learn">Learn</string>
+    <string name="sos">SOS</string>
+
+    <string name="plan">Plan</string>
+
+    <string name="progress">Progress</string>
+
+    <string name="recipes">Recipes</string>
+    <string name="exercises">Exercises</string>
+    <string name="cq">Community</string>
+    <string name="stellalive">Stella Live</string>
+    <string name="treatmentlibraries">Treatment libraries</string>
+    <string name="symptomglossary">Symptom Glossary</string>
+    <string name="mindful_1">How mindfulness helps with anxiety, hot flushes and memory loss</string>
+    <string name="mindful_2">How does mindfulness work?</string>
+    <string name="mindful_3">Why your brain is failing you and when to get worries?</string>
+
+</resources>
