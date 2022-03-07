@@ -31,7 +31,7 @@ class DataRepository @Inject constructor(private val dao:AppDao) {
         dao.insertCoaches(items)
     }
 
-    fun getCoaches():ArrayList<Coaches>{
+    fun getCoaches():List<Coaches>{
         return dao.getCoaches()
     }
 }

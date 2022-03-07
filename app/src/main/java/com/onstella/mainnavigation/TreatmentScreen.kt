@@ -6,7 +6,10 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
+import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
@@ -20,7 +23,9 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import com.onstella.AppBar
 import com.onstella.R
 import com.onstella.database.entities.Items
 import com.onstella.ui.theme.LightBlue
@@ -31,7 +36,11 @@ import com.onstella.viewmodels.TreatmentViewMdel
 import kotlinx.coroutines.delay
 
 @Composable
-fun TreatmentScreen(navController: NavController, treatmentViewMdel: TreatmentViewMdel) {
+fun TreatmentScreen(
+    navController: NavController?,
+    treatmentViewMdel: TreatmentViewMdel,
+    category: String
+) {
 
     //insert data into db
     var learnItems = arrayListOf<Items>()
@@ -39,12 +48,40 @@ fun TreatmentScreen(navController: NavController, treatmentViewMdel: TreatmentVi
     learnItems.add(Items(2, 1, stringResource(R.string.mindful_2), "3m", "Depression"))
     learnItems.add(Items(3, 1, stringResource(R.string.mindful_3), "7m", "Brain health"))
     treatmentViewMdel.insertItems(learnItems)
+    Scaffold(topBar = {
+        AppBar(
+            title = category,
+            icon = Icons.Default.ArrowBack
+        ) { navController?.popBackStack() }
+    }) {
+        //display the selected category
+        category?.let {
+            Box(contentAlignment = Alignment.Center, modifier = Modifier.fillMaxWidth()) {
+                Text(
+                    text = it, style = TextHeader
+
+                )
+            }
+        }
+
+        //draw cards
+        TreatmentScreenUI(treatmentViewMdel.listOfItems.value)
+
+
+    }
+
+
 
     LaunchedEffect(true) {
         treatmentViewMdel.getItems()
 
     }
-    //draw cards
+
+}
+
+
+@Composable
+fun TreatmentScreenUI(items: List<Items>) {
 
     Column(
         modifier = Modifier
@@ -53,14 +90,10 @@ fun TreatmentScreen(navController: NavController, treatmentViewMdel: TreatmentVi
         horizontalAlignment = Alignment.CenterHorizontally,
     )
     {
-        Text(
-            text = stringResource(id = R.string.treatmentlibraries), style = TextHeader,
-            textAlign = TextAlign.Center
-        )
-        HorizontalScrollableComponent(treatmentViewMdel.listOfItems.value)
+
+        HorizontalScrollableComponent(items)
     }
 }
-
 
 @Composable
 fun HorizontalScrollableComponent(treatmentList: List<Items>) {
@@ -114,6 +147,18 @@ fun HorizontalScrollableComponent(treatmentList: List<Items>) {
         })
 }
 
+@Preview
+@Composable
+fun TreatMentScreenPreview() {
+
+    //val treatmentViewMdel: TreatmentViewMdel = hiltViewModel()
+    var learnItems = arrayListOf<Items>()
+    learnItems.add(Items(1, 1, stringResource(R.string.mindful_1), "5m", "Anxiety"))
+    learnItems.add(Items(2, 1, stringResource(R.string.mindful_2), "3m", "Depression"))
+    learnItems.add(Items(3, 1, stringResource(R.string.mindful_3), "7m", "Brain health"))
+    TreatmentScreenUI(learnItems)
+
+}
 
 @Preview
 @Composable

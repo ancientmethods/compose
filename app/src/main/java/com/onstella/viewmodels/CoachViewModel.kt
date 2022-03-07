@@ -1,7 +1,6 @@
 package com.onstella.viewmodels
 
-import androidx.compose.runtime.mutableStateListOf
-import androidx.compose.runtime.toMutableStateList
+import androidx.compose.runtime.*
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.onstella.database.DataRepository
@@ -15,12 +14,18 @@ import javax.inject.Inject
 
 
 @HiltViewModel
-class CoachViewModel @Inject constructor(val dataRepository: DataRepository): ViewModel() {
+class CoachViewModel @Inject constructor(private val dataRepository: DataRepository): ViewModel() {
 
-    //var categories = mutableStateListOf(Categories)
 
-    var listOfCoaches = mutableStateListOf<Coaches>()
+    //different ways of getting the data andd getting state here
+  //  var listOfCoaches = mutableStateListOf<Coaches>()
+  //  var listOfCoaches1 = arrayListOf<Coaches>()
+
+    private val _listOfCoaches: MutableState<List<Coaches>> = mutableStateOf(emptyList())
+    val listOfDish: State<List<Coaches>> = _listOfCoaches
+
     var listOfItems = mutableStateListOf<Items>()
+    var onLoad= mutableStateOf(false)
 
 
     fun  insertCoaches(){
@@ -44,9 +49,13 @@ class CoachViewModel @Inject constructor(val dataRepository: DataRepository): Vi
 
     fun getCoaches(){
 
-        viewModelScope.launch(Dispatchers.IO){
-            listOfCoaches = dataRepository.getCoaches().toMutableStateList()
-
+        if(!onLoad.value) {
+            viewModelScope.launch(Dispatchers.IO) {
+                //different ways to make the list a state. both work
+                //listOfCoaches = dataRepository.getCoaches().toMutableStateList()
+                _listOfCoaches.value =  dataRepository.getCoaches()
+                onLoad.value = true
+            }
         }
 
     }

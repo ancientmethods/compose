@@ -5,9 +5,9 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import com.onstella.database.entities.Coaches
 import com.onstella.database.entities.LearnCategories
 import com.onstella.database.entities.Items
-import com.onstella.mainnavigation.Coaches
 
 /**
  * data access object for database queries
@@ -31,5 +31,5 @@ interface AppDao {
     fun insertCoaches( items:ArrayList<Coaches>)
 
     @Query("Select * from Coaches")
-    abstract fun getCoaches(): ArrayList<Coaches>
+     fun getCoaches(): List<Coaches>
 }

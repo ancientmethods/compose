@@ -135,7 +135,7 @@ fun LearnScreen(navController: NavController, learnViewModel:LearnViewModel) {
                                 .fillMaxWidth()
                                 .height(160.dp),
                             onClick = {
-                                navController.navigate(Screen.Treatment.route)
+                                navController.navigate(Screen.Treatment.route+"/${categories[it]}")
                             }
                         ) {
                             Column(
