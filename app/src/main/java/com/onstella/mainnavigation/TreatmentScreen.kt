@@ -71,7 +71,7 @@ fun TreatmentScreen(
     }
 
 
-
+    //load the treatment items
     LaunchedEffect(true) {
         treatmentViewMdel.getItems()
 

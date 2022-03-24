@@ -53,7 +53,6 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
 
         addFakeData()
-        //treatmentViewMdel.getItems()
 
         setContent {
             OnstellaTheme {
@@ -118,6 +117,7 @@ class MainActivity : ComponentActivity() {
                             startDestination = Screen.Learn.route,
                             Modifier.padding(innerPadding)
                         ) {
+                            //add all composable screens here with their respective routes
                             composable(Screen.Coach.route) {
                                 var coachViewMdel: CoachViewModel = hiltViewModel()
                                 CoachScreen(
@@ -191,6 +191,7 @@ val navigation_items = listOf(
     Screen.Progress,
 )
 
+//sealed class to define each screen and its destination route
 sealed class Screen(val route: String, @StringRes val resourceId: Int, val icon: ImageVector) {
     object Coach : Screen("coach", R.string.coach, Icons.Filled.Person)
     object Learn : Screen("learn", R.string.learn, Icons.Filled.Favorite)
@@ -202,7 +203,7 @@ sealed class Screen(val route: String, @StringRes val resourceId: Int, val icon:
 
 }
 
-
+//can be also in separate class
 @Composable
 fun PlanScreen() {
 

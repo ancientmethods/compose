@@ -7,6 +7,9 @@ import com.onstella.MyApplication
 import com.onstella.database.AppDao
 import com.onstella.database.AppDatabase
 import com.onstella.database.DataRepository
+import com.onstella.utils.Authenticator
+import com.onstella.utils.FirebaseAuthentication
+import com.onstella.utils.PreferencesManager
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -35,6 +38,12 @@ class AppModule {
 
     @Provides
     @Singleton
+    fun provideSharedPrefencesManager(sharedPreferences: SharedPreferences): PreferencesManager {
+        return (PreferencesManager(sharedPreferences))
+    }
+
+    @Provides
+    @Singleton
     fun provideDatabase(application: MyApplication): AppDatabase {
         return Room.databaseBuilder(application, AppDatabase::class.java, "Stella.db")
             .fallbackToDestructiveMigration().build()
@@ -50,5 +59,12 @@ class AppModule {
     @Singleton
     fun provideRepository(dao: AppDao): DataRepository {
         return DataRepository(dao)
+    }
+
+
+    @Provides
+    @Singleton
+    fun provideAuthenticator(): Authenticator {
+        return FirebaseAuthentication()
     }
 }
